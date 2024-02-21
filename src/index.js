@@ -41,11 +41,7 @@ app.get("/api/users/:id", (req, res) => {
     res.status(400).send("Invalid Code");
   }
 
-  
-
-  const searcheduser = mockuser.find((user) =>  user.id == id );
-
-  
+  const searcheduser = mockuser.find((user) => user.id == id);
 
   if (!searcheduser) return res.status(404).send("User not found");
   else return res.status(200).send(searcheduser);
