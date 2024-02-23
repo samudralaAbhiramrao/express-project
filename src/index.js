@@ -30,8 +30,19 @@ app.get("/", (req, res) => {
   console.log("something happening");
   res.send({ msg: "Hello" }).status(200);
 });
+
 app.get("/api/users", (req, res) => {
-  res.send([{ name: "Abhiram" }, { Name: "Bindu" }]).status(200);
+  let {
+    query: { filter, value },
+  } = req;
+
+  if (filter && value) {
+    return res
+      .send(mockuser.filter((user) => user[filter].includes(value)))
+      .status(200);
+  } else {
+    return res.send(mockuser);
+  }
 });
 
 app.get("/api/users/:id", (req, res) => {
@@ -44,8 +55,9 @@ app.get("/api/users/:id", (req, res) => {
   const searcheduser = mockuser.find((user) => user.id == id);
 
   if (!searcheduser) return res.status(404).send("User not found");
-  else return res.status(200).send(searcheduser);
+  else return res.status(200).send([searcheduser.Age]);
 });
+
 app.listen(port, () => {
   console.log(`port started at ${port}`);
 });
